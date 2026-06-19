@@ -126,6 +126,13 @@ tbody tr:hover{background:#faf8f3}
 .kpi b{font-family:'Playfair Display',serif;font-size:23px;color:var(--vinho)}
 ul.clean{margin:8px 0 8px 18px}ul.clean li{margin-bottom:7px;color:#4b5560;font-size:14.5px}
 .callout{background:#f6f1e6;border:1px solid #e6dabe;border-radius:8px;padding:14px 16px;font-size:14px;color:#5c4e2f;margin-top:12px}
+.cert{display:flex;flex-direction:column;gap:6px}
+.cert-ac{font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:var(--vinho);line-height:1}
+.cert-iss{align-self:flex-start;font-size:10px;letter-spacing:1.5px;font-weight:700;color:var(--laranja);border:1px solid var(--laranja);border-radius:4px;padding:2px 8px;text-transform:uppercase}
+.cert-nm{font-weight:700;color:var(--ink);font-size:14px;margin-top:4px}
+.cert-ds{font-size:13px;color:#4b5560;line-height:1.5;flex:1}
+.cert-val{font-size:12px;color:#2f7d4f;font-weight:700;margin-top:8px;display:flex;align-items:center;gap:6px}
+.cert-dot{width:8px;height:8px;border-radius:50%;background:#3e9e63;display:inline-block}
 footer{background:var(--vinho);color:#c4cdd6;padding:30px 0;font-size:12.5px}
 footer a{color:var(--laranja)}
 footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;letter-spacing:2px;font-weight:700}
@@ -140,6 +147,7 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
     <a href="#carteiras">Carteiras</a>
     <a href="#backtest">Backtest</a>
     <a href="#racional">Racional</a>
+    <a href="#credenciais">Credenciais</a>
   </div>
 </div></header>
 
@@ -217,9 +225,38 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   </ul>
 </div></section>
 
+<!-- CREDENCIAIS -->
+<section id="credenciais" style="background:var(--bg)"><div class="wrap">
+  <div class="sec-tag">Credenciais</div><h2>Gestão com certificação profissional</h2>
+  <p class="lead">Carteira construída por profissional com as três certificações de gestão de recursos da <b>ANBIMA</b> — o mesmo padrão exigido de gestores de fundos regulados pela CVM.</p>
+  <div class="grid g3">
+    <div class="card cert">
+      <div class="cert-ac">CGA</div>
+      <div class="cert-iss">ANBIMA</div>
+      <div class="cert-nm">Certificação de Gestores ANBIMA</div>
+      <div class="cert-ds">Habilita a gestão de recursos de terceiros em fundos de renda fixa, ações, multimercado e cambiais — atividade regulada pela CVM.</div>
+      <div class="cert-val"><span class="cert-dot"></span>Ativa · válida até 02/01/2030</div>
+    </div>
+    <div class="card cert">
+      <div class="cert-ac">CGE</div>
+      <div class="cert-iss">ANBIMA</div>
+      <div class="cert-nm">Gestores ANBIMA — Fundos Estruturados</div>
+      <div class="cert-ds">Habilita a gestão de fundos estruturados: imobiliários (FII), participações (FIP) e direitos creditórios (FIDC).</div>
+      <div class="cert-val"><span class="cert-dot"></span>Ativa · válida até 31/12/2026</div>
+    </div>
+    <div class="card cert">
+      <div class="cert-ac">CFG</div>
+      <div class="cert-iss">ANBIMA</div>
+      <div class="cert-nm">Fundamentos em Gestão</div>
+      <div class="cert-ds">Base técnica da trilha de gestão de recursos e pré-requisito das certificações de gestor da ANBIMA.</div>
+      <div class="cert-val"><span class="cert-dot"></span>Ativa · válida até 02/01/2030</div>
+    </div>
+  </div>
+</div></section>
+
 <footer><div class="wrap">
   <div class="fbrand">ROMULO CORCINO</div>
-  <div style="margin-top:6px">Carteira de ETFs para Pessoa Física · Fonte de dados: Comdinheiro · Backtest: <span id="footPeriod"></span></div>
+  <div style="margin-top:6px">Carteira de ETFs para Pessoa Física · Gestor certificado ANBIMA (CFG · CGA · CGE) · Fonte de dados: Comdinheiro · Backtest: <span id="footPeriod"></span></div>
   <div class="disc">Material de caráter informativo e educacional, não constitui oferta, recomendação ou consultoria de investimentos. Rentabilidade passada não garante rentabilidade futura. O backtest usa índices/ETFs como proxy e premissas de tributação simplificadas. Consulte um profissional certificado antes de investir.</div>
 </div></footer>
 
