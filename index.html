@@ -142,6 +142,35 @@ ul.clean{margin:8px 0 8px 18px}ul.clean li{margin-bottom:7px;color:#4b5560;font-
 .rate{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;color:var(--vinho);line-height:1}
 .ratelab{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--laranja);font-weight:700;margin:4px 0 10px}
 .taxcard ul{margin:0 0 0 16px;padding:0}.taxcard li{font-size:13px;color:#4b5560;margin-bottom:6px;line-height:1.45}
+.renda{background:linear-gradient(135deg,var(--vinho),var(--vinho2));color:#fff;border-radius:10px;padding:16px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:16px}
+.renda .big{font-family:'Playfair Display',serif;font-size:30px;font-weight:800;color:var(--amarelo);line-height:1}
+.renda small{color:#c4cdd6;font-size:12px;display:block}
+.contact{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.contact a{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px}
+.cta-wpp{background:#1FA855;color:#fff}.cta-mail{background:transparent;color:var(--vinho);border:1.5px solid var(--vinho)}
+.simgrid{display:grid;gap:18px}@media(min-width:720px){.simgrid{grid-template-columns:1fr 1fr}}
+.field{margin-bottom:16px}.field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.field input,.field select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:15px;font-family:inherit;background:#fff}
+.simout{background:#f7f6f2;border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center;margin-bottom:12px}
+.simout .v{font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:var(--vinho);line-height:1.1}
+.simout .vl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.hm{font-size:12px;border-collapse:separate;border-spacing:3px;width:100%}
+.hm th{font-size:10px;color:var(--muted);padding:2px;font-weight:600;text-transform:none;letter-spacing:0}
+.hm td{text-align:center;padding:6px 4px;border-radius:4px;color:#fff;font-weight:600;border:none}
+.hm td.empty{background:#f0ece3;color:#cfc8bd}
+details.faq{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:10px;background:#fff}
+details.faq>summary{cursor:pointer;padding:14px 16px;font-weight:700;color:var(--vinho);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details.faq>summary::-webkit-details-marker{display:none}
+details.faq>summary::after{content:"+";color:var(--laranja);font-size:22px;font-weight:700;line-height:1}
+details.faq[open]>summary::after{content:"\2212"}
+.faq .fa{padding:0 16px 14px;color:#4b5560;font-size:14px;line-height:1.6}
+.step{display:flex;gap:14px;margin-bottom:16px}
+.step .num{flex:0 0 auto;width:36px;height:36px;border-radius:50%;background:var(--vinho);color:var(--amarelo);font-family:'Playfair Display',serif;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step .st{font-weight:700;color:var(--ink);margin-bottom:2px}.step .sd{font-size:13.5px;color:#4b5560}
+.gl{font-size:14px;color:#4b5560;margin-bottom:9px}.gl b{color:var(--vinho)}
+.printbtn{background:transparent;border:1px solid var(--laranja);color:var(--laranja);padding:9px 16px;border-radius:6px;cursor:pointer;font-weight:600;font-size:13px;margin-top:16px}
+.printbtn:hover{background:var(--laranja);color:#fff}
+@media print{header,.btn,.contact,.printbtn,.tabs,#simBtn{display:none!important}section{padding:16px 0!important}.hero{padding:24px 0!important}.card{break-inside:avoid}}
 footer{background:var(--vinho);color:#c4cdd6;padding:30px 0;font-size:12.5px}
 footer a{color:var(--laranja)}
 footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;letter-spacing:2px;font-weight:700}
@@ -157,6 +186,7 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
     <a href="#carteiras">Carteiras</a>
     <a href="#backtest">Backtest</a>
     <a href="#rentabilidade">Rentabilidade</a>
+    <a href="#simulador">Simulador</a>
     <a href="#racional">Racional</a>
     <a href="#educacao">ETFs &amp; IR</a>
   </div>
@@ -213,6 +243,7 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   <p class="lead">Composição por perfil. Os sleeves marcados <span class="isento">ISENTO</span> são fundos listados isentos de IR (FII, FI-Infra, FIAGRO) — negociados em bolsa como um ETF.</p>
   <div class="tabs" id="cartTabs"></div>
   <div class="grid g4" id="cartKpis" style="margin-bottom:16px"></div>
+  <div class="renda" id="rendaCart" style="margin-bottom:16px"></div>
   <div class="grid g2">
     <div class="card">
       <div class="chartbox" style="height:240px"><canvas id="donut"></canvas><div class="donut-center" id="donutCenter"></div></div>
@@ -253,6 +284,44 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
 
   <h3>Métricas de risco</h3>
   <div class="card" style="overflow-x:auto"><div id="riskTable"></div></div>
+
+  <h3>Consistência — janelas móveis de 12 meses</h3>
+  <div class="grid g4" id="rollCards"></div>
+  <div class="note">De todas as janelas de 12 meses do período, % em que cada perfil superou o CDI e % em que terminou positiva.</div>
+
+  <h3>Comparação com outras alternativas</h3>
+  <div class="card"><div class="chartbox" style="height:330px"><canvas id="cmpChart"></canvas></div>
+    <div class="note">Retorno total no período (bruto, ~5 anos). Multimercado (IHFA) indisponível na fonte de dados.</div></div>
+
+  <h3>Drawdown — quanto caiu do topo</h3>
+  <div class="card"><div class="chartbox" style="height:300px"><canvas id="ddChart"></canvas></div>
+    <div class="note">Queda máxima a partir do pico (base semanal). Quanto mais raso e mais curto, melhor — é o que o Ulcer Index mede.</div></div>
+
+  <h3>Retornos mês a mês</h3>
+  <div class="tabs" id="hmTabs"></div>
+  <div class="card" style="overflow-x:auto"><div id="heatmap"></div></div>
+</div></section>
+
+<!-- SIMULADOR -->
+<section id="simulador" style="background:#fff"><div class="wrap">
+  <div class="sec-tag">Simulador</div><h2>Simule seu investimento</h2>
+  <p class="lead">Projeção com base no <b>retorno líquido histórico</b> do perfil (~5 anos). É uma estimativa para ilustração — rentabilidade passada não garante futura.</p>
+  <div class="simgrid">
+    <div class="card">
+      <div class="field"><label>Perfil</label><select id="simPf"><option value="RF">Renda Fixa</option><option value="CONS">Conservador</option><option value="MOD" selected>Moderado</option><option value="AGR">Agressivo</option></select></div>
+      <div class="field"><label>Aporte inicial (R$)</label><input id="simIni" type="number" value="100000" min="0" step="1000"></div>
+      <div class="field"><label>Aporte mensal (R$)</label><input id="simMes" type="number" value="1000" min="0" step="100"></div>
+      <div class="field"><label>Prazo (anos)</label><input id="simAnos" type="number" value="10" min="1" max="40"></div>
+    </div>
+    <div>
+      <div class="simout"><div class="v" id="simFV">—</div><div class="vl">patrimônio projetado</div></div>
+      <div class="grid g2" style="gap:12px">
+        <div class="simout"><div class="v" style="font-size:23px" id="simInv">—</div><div class="vl">total investido</div></div>
+        <div class="simout"><div class="v" style="font-size:23px" id="simGanho">—</div><div class="vl">rendimento</div></div>
+      </div>
+      <div class="renda"><div><div class="big" id="simRenda">—</div><small>renda mensal isenta de IR estimada, gerada pelo patrimônio final (FIIs / FI-Infra)</small></div></div>
+    </div>
+  </div>
 </div></section>
 
 <!-- RACIONAL -->
@@ -346,6 +415,9 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
     </tbody></table>
     <div class="note">O imposto só incide quando você <b>realiza o lucro</b> (vende). Enquanto segura, não paga nada.</div></div>
 
+  <h3>Quanto você economiza saindo de fundos tradicionais</h3>
+  <div class="card"><p class="lead" style="margin:0">Trocar um fundo com taxa de ~1,5% a.a. + come-cotas por ETFs a ~0,2% a.a. pesa muito no longo prazo. Em <b>R$100 mil ao longo de 10 anos</b>, só a economia de taxa representa cerca de <b id="econVal" style="color:var(--vinho)">—</b> a mais no seu bolso — sem contar o ganho de adiar o imposto (ETF de RF não tem come-cotas).</p></div>
+
   <h3>Como declarar no IRPF</h3>
   <ul class="clean">
     <li><b>Posição (Bens e Direitos):</b> cada ETF/FII pelo custo de aquisição, com o saldo em 31/12 (grupo 07 – Fundos).</li>
@@ -357,9 +429,58 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   <div class="callout">⚠️ Conteúdo educacional. As regras de IR podem mudar e há detalhes por situação — confirme com um contador na hora de declarar.</div>
 </div></section>
 
+<!-- COMO INVESTIR -->
+<section id="praticar" style="background:var(--bg)"><div class="wrap">
+  <div class="sec-tag">Mão na massa</div><h2>Como montar na prática</h2>
+  <div class="grid g2">
+    <div class="card">
+      <div class="step"><div class="num">1</div><div><div class="st">Abra conta em uma corretora</div><div class="sd">Qualquer corretora com acesso à B3 (a maioria é gratuita). ETFs e FIIs são comprados como ações, pelo home broker.</div></div></div>
+      <div class="step"><div class="num">2</div><div><div class="st">Descubra seu perfil</div><div class="sd">Use o teste acima para saber qual das quatro carteiras combina com você.</div></div></div>
+      <div class="step"><div class="num">3</div><div><div class="st">Compre os ETFs nos pesos indicados</div><div class="sd">Digite o código (ex.: IMAB11) e a quantidade, seguindo os pesos da carteira do seu perfil.</div></div></div>
+    </div>
+    <div class="card">
+      <div class="step"><div class="num">4</div><div><div class="st">Aporte com regularidade</div><div class="sd">Aportes mensais suavizam o preço médio e aceleram os juros compostos.</div></div></div>
+      <div class="step"><div class="num">5</div><div><div class="st">Rebalanceie 1–2x por ano</div><div class="sd">Traga os pesos de volta ao alvo: vende o que subiu demais, reforça o que ficou para trás.</div></div></div>
+      <div class="step"><div class="num">6</div><div><div class="st">Cuide do IR</div><div class="sd">ETF de ações: DARF nos meses de venda com lucro. RF e isentos: retido na fonte / isento. Veja “ETFs & IR”.</div></div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section id="faq" style="background:#fff"><div class="wrap">
+  <div class="sec-tag">Dúvidas</div><h2>Perguntas frequentes</h2>
+  <details class="faq"><summary>Quanto preciso para começar?</summary><div class="fa">Dá para começar com pouco — ETFs são comprados por cota (muitas custam menos de R$120) e há corretoras que permitem fração. O importante é manter os pesos proporcionais e aportar com regularidade.</div></details>
+  <details class="faq"><summary>Com que frequência devo rebalancear?</summary><div class="fa">Uma a duas vezes por ano costuma bastar. Rebalancear é trazer os pesos de volta ao alvo do seu perfil — disciplina que controla o risco sem exigir acompanhamento diário.</div></details>
+  <details class="faq"><summary>E se mudarem a lei dos isentos?</summary><div class="fa">Houve uma tentativa de taxar isentos (MP 1303/2025), derrubada em 2025. Se a regra mudar, a carteira pode ser ajustada — a estrutura por ETFs facilita a troca. Hoje, FII, FI-Infra e debênture incentivada seguem isentos para PF.</div></details>
+  <details class="faq"><summary>ETF é seguro? Posso perder dinheiro?</summary><div class="fa">ETF é um fundo regulado e custodiado; o risco é o dos ativos que ele carrega. Carteiras com bolsa e cripto oscilam no curto prazo (veja o drawdown). Os perfis conservadores oscilam pouco, mas nenhum investimento é livre de risco.</div></details>
+  <details class="faq"><summary>Por que o backtest começa em 2021?</summary><div class="fa">É o histórico disponível do ativo mais novo usado como referência (cripto). É uma simulação da alocação com índices/ETFs de histórico longo — não a rentabilidade de uma carteira real já existente.</div></details>
+  <details class="faq"><summary>Preciso de assessor?</summary><div class="fa">Não para operar — a compra é simples. Mas, para adequar a carteira ao seu momento de vida e objetivos, vale conversar. Use os botões de contato no resultado do teste.</div></details>
+</div></section>
+
+<!-- GLOSSARIO -->
+<section id="glossario" style="background:var(--bg)"><div class="wrap">
+  <div class="sec-tag">Glossário</div><h2>Termos em 1 linha</h2>
+  <div class="grid g2">
+    <div>
+      <p class="gl"><b>CDI</b> — taxa de referência dos pós-fixados; “bater o CDI” é o alvo da renda fixa.</p>
+      <p class="gl"><b>ETF</b> — fundo de índice negociado em bolsa como uma ação; uma cota = uma cesta de ativos.</p>
+      <p class="gl"><b>NTN-B</b> — título do Tesouro que paga IPCA + juro real (proteção contra inflação).</p>
+      <p class="gl"><b>Come-cotas</b> — antecipação semestral de IR nos fundos tradicionais; ETFs de RF não têm.</p>
+    </div>
+    <div>
+      <p class="gl"><b>Ulcer Index</b> — mede profundidade e duração das quedas; quanto menor, menos “dor”.</p>
+      <p class="gl"><b>Drawdown</b> — queda acumulada a partir do pico anterior.</p>
+      <p class="gl"><b>FII / FI-Infra</b> — fundos listados de crédito imobiliário/infra; rendimento mensal isento de IR para PF.</p>
+      <p class="gl"><b>Isento</b> — sem IR sobre o rendimento (LCI/LCA, CRI, CRA, debênture incentivada, FII).</p>
+    </div>
+  </div>
+</div></section>
+
 <footer><div class="wrap">
   <div class="fbrand">ROMULO CORCINO</div>
   <div style="margin-top:6px">Carteira de ETFs para Pessoa Física · Gestor certificado ANBIMA (CFG · CGA · CGE) · Fonte de dados: Comdinheiro · Backtest: <span id="footPeriod"></span></div>
+  <div class="contact" id="footContact" style="margin-top:14px"></div>
+  <button class="printbtn" onclick="window.print()">Imprimir / salvar em PDF</button>
   <div class="disc">Material de caráter informativo e educacional, não constitui oferta, recomendação ou consultoria de investimentos. Rentabilidade passada não garante rentabilidade futura. O backtest usa índices/ETFs como proxy e premissas de tributação simplificadas. Consulte um profissional certificado antes de investir.</div>
 </div></footer>
 
@@ -367,6 +488,9 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
 const D=window.DATA;
 const F=v=>Number(v).toLocaleString('pt-BR',{maximumFractionDigits:1});
 const F2=v=>Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const WPP="550000000000"; /* TODO: trocar pelo WhatsApp real: 55 + DDD + numero */
+const MAIL="romulo.corcino@taginvest.com.br";
+function brl(v){return "R$ "+Math.round(v).toLocaleString('pt-BR');}
 const COR={RF:"#3E6B7A",CONS:"#C2A14D",MOD:"#B06A3B",AGR:"#8E3B52",CDI:"#1c1c1c"};
 const PFNOME={RF:"Renda Fixa",CONS:"Conservador",MOD:"Moderado",AGR:"Agressivo"};
 const PFDESC={
@@ -445,7 +569,12 @@ function showResult(){
    <div class="metric"><b>${F2(m.ulcer)}</b><small>Ulcer Index</small></div>
    <div class="metric"><b>${F(m.maxDD)}%</b><small>maior queda</small></div>
   </div>
-  <a class="btn" href="#carteiras" onclick="selPF('${pf}')">Ver a carteira ${PFNOME[pf]} →</a>`;
+  <div class="renda"><div><div class="big">${brl(D.perf.rendaPassiva[pf].mensal100k)}/mês</div><small>renda isenta de IR estimada por R$100 mil · ${F(D.perf.rendaPassiva[pf].isentoPct)}% da carteira é isento</small></div></div>
+  <div class="contact">
+   <a class="cta-wpp" href="https://wa.me/${WPP}?text=${encodeURIComponent('Olá Romulo, fiz o teste de perfil ('+PFNOME[pf]+') e quero saber mais sobre a carteira de ETFs.')}" target="_blank" rel="noopener">Falar no WhatsApp</a>
+   <a class="cta-mail" href="mailto:${MAIL}?subject=${encodeURIComponent('Carteira de ETFs — perfil '+PFNOME[pf])}">Enviar e-mail</a>
+  </div>
+  <a class="btn" href="#carteiras" onclick="selPF('${pf}')" style="margin-top:14px">Ver a carteira ${PFNOME[pf]} →</a>`;
  r.classList.add("show"); r.scrollIntoView({behavior:"smooth",block:"center"});
  selPF(pf);
 }
@@ -469,6 +598,7 @@ function selPF(k){
  document.getElementById("cartKpis").innerHTML=
   [[rows.length,"ativos"],[fmt(isento)+"%","isento de IR"],[fmt(fi)+"%","renda fixa"],[fmt(risco)+"%","em risco"]]
    .map(x=>`<div class="stat"><b>${x[0]}</b><small>${x[1]}</small></div>`).join("");
+ document.getElementById("rendaCart").innerHTML=`<div><div class="big">${brl(D.perf.rendaPassiva[k].mensal100k)}/mês</div><small>renda mensal isenta de IR estimada por R$100 mil neste perfil · ${F(D.perf.rendaPassiva[k].isentoPct)}% da carteira é isento</small></div>`;
  // tabela com barras de peso
  let html=`<table><thead><tr><th>ETF</th><th>Classe</th><th class="r">Peso</th></tr></thead><tbody>`;
  rows.forEach(r=>{const cc=CCOR[r.c];
@@ -555,6 +685,65 @@ const RL=[["retAA","Retorno a.a.","%"],["vol","Volatilidade a.a.","%"],["sharpe"
 let rt=`<table><thead><tr><th>Métrica</th>${PFKEYS.map(k=>`<th class="r" style="color:${COR[k]}">${PFNOME[k]}</th>`).join("")}</tr></thead><tbody>`;
 RL.forEach(([key,lab,suf])=>{rt+=`<tr><td class="tk">${lab}</td>`+PFKEYS.map(k=>{let v=D.perf.risk[k][key];v=(key==="ulcer"||key==="sharpe")?F2(v):F(v);return `<td class="r">${v}${suf}</td>`;}).join("")+`</tr>`;});
 document.getElementById("riskTable").innerHTML=rt+`</tbody></table>`;
+
+// rolling 12m
+const RK=D.perf.rolling;
+document.getElementById("rollCards").innerHTML=PFKEYS.map(k=>`<div class="card" style="border-top:3px solid ${COR[k]}">
+ <div style="font-weight:800;color:${COR[k]};margin-bottom:6px">${PFNOME[k]}</div>
+ <div class="kpi"><b>${RK[k].hitCdi}%</b><span style="color:#8a949d;font-size:12px">bateu o CDI</span></div>
+ <div style="font-size:12.5px;color:#4b5560;margin-top:6px">${RK[k].posRate}% positivas · mediana <b>${F(RK[k].med)}%</b><br>faixa ${F(RK[k].min)}% a ${F(RK[k].max)}%</div></div>`).join("");
+
+// comparação (barras horizontais)
+const CMP=D.perf.compare;
+new Chart(document.getElementById("cmpChart"),{type:"bar",
+ data:{labels:CMP.map(c=>c.nome),datasets:[{data:CMP.map(c=>c.ret),
+   backgroundColor:CMP.map(c=>c.grp==="carteira"?(COR[c.key]||"#0F2238"):"#9aa6b1"),borderRadius:3}]},
+ options:{maintainAspectRatio:false,indexAxis:"y",layout:{padding:{right:34}},
+  scales:{x:{ticks:{callback:v=>v+"%",color:"#8a949d"},grid:{color:"#eee"}},y:{grid:{display:false}}},
+  plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${F(c.parsed.x)}% no período`}}}},
+ plugins:[{id:"cmpLbl",afterDatasetsDraw(ch){const x=ch.ctx;x.save();x.font="700 11px Inter,sans-serif";x.fillStyle="#16202B";x.textAlign="left";ch.getDatasetMeta(0).data.forEach((b,i)=>x.fillText(F(CMP[i].ret)+"%",b.x+5,b.y+4));x.restore();}}]});
+
+// drawdown (calculado da série semanal)
+function ddFrom(arr){let pk=-1e9,o=[];arr.forEach(v=>{pk=Math.max(pk,v);o.push((v/pk-1)*100);});return o;}
+new Chart(document.getElementById("ddChart"),{type:"line",
+ data:{labels:D.labels,datasets:PFKEYS.map(k=>({label:PFNOME[k],data:ddFrom(D.series[k]),borderColor:COR[k],borderWidth:1.6,pointRadius:0,fill:false,tension:.1}))},
+ options:{maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+  scales:{x:{ticks:{maxTicksLimit:7,color:"#8a949d"},grid:{display:false}},y:{ticks:{callback:v=>v+"%",color:"#8a949d"},grid:{color:"#eee"}}},
+  plugins:{legend:{labels:{boxWidth:14,font:{size:11}}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${F(c.parsed.y)}%`}}}}});
+
+// heatmap mensal
+const hmTabs=document.getElementById("hmTabs");
+PFKEYS.forEach(k=>{const b=document.createElement("div");b.className="tab";b.dataset.k=k;b.textContent=PFNOME[k];b.onclick=()=>renderHM(k);hmTabs.appendChild(b);});
+const MNAME=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+function hmColor(v){if(v==null)return"#f0ece3";const a=Math.min(Math.abs(v)/3,1);return v>=0?`rgba(47,125,79,${0.22+a*0.62})`:`rgba(168,40,60,${0.22+a*0.62})`;}
+function renderHM(k){[...hmTabs.children].forEach(c=>c.classList.toggle("act",c.dataset.k===k));
+ const M=D.perf.monthly[k],years=Object.keys(M).sort();
+ let h=`<table class="hm"><thead><tr><th></th>${MNAME.map(m=>`<th>${m}</th>`).join("")}<th>Ano</th></tr></thead><tbody>`;
+ years.forEach(y=>{h+=`<tr><th>${y}</th>`;let prod=1,any=false;
+  M[y].forEach(v=>{if(v==null)h+=`<td class="empty">·</td>`;else{any=true;prod*=(1+v/100);h+=`<td style="background:${hmColor(v)}">${F(v)}</td>`;}});
+  h+=`<td style="background:${any?hmColor((prod-1)*100):'#f0ece3'};font-weight:800">${any?F((prod-1)*100):'·'}</td></tr>`;});
+ document.getElementById("heatmap").innerHTML=h+`</tbody></table>`;}
+renderHM("MOD");
+
+// simulador
+function simula(){
+ const k=document.getElementById("simPf").value;
+ const ini=+document.getElementById("simIni").value||0,mes=+document.getElementById("simMes").value||0,an=Math.max(1,+document.getElementById("simAnos").value||1);
+ const liqAA=Math.pow(1+D.metrics.v2[k].liqTotal/100,1/D.periodo.anos)-1;
+ const rm=Math.pow(1+liqAA,1/12)-1,nm=an*12;
+ const fv=ini*Math.pow(1+rm,nm)+(rm>0?mes*((Math.pow(1+rm,nm)-1)/rm):mes*nm),inv=ini+mes*nm;
+ document.getElementById("simFV").textContent=brl(fv);
+ document.getElementById("simInv").textContent=brl(inv);
+ document.getElementById("simGanho").textContent=brl(fv-inv);
+ document.getElementById("simRenda").textContent=brl(D.perf.rendaPassiva[k].mensal100k*(fv/100000))+"/mês";
+}
+["simPf","simIni","simMes","simAnos"].forEach(id=>document.getElementById(id).addEventListener("input",simula));
+simula();
+
+// contato no rodapé
+document.getElementById("footContact").innerHTML=`<a class="cta-wpp" href="https://wa.me/${WPP}" target="_blank" rel="noopener">WhatsApp</a><a class="cta-mail" href="mailto:${MAIL}" style="color:var(--amarelo);border-color:var(--amarelo)">${MAIL}</a>`;
+// economia vs fundos (R$100k, 10 anos, base CDI)
+(()=>{const g=D.cdi.aa/100,y=10,P=100000;const fe=P*Math.pow(1+g-0.002,y),ff=P*Math.pow(1+g-0.015,y);document.getElementById("econVal").textContent=brl(fe-ff);})();
 
 selPF("MOD");
 </script>
