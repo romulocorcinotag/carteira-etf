@@ -190,23 +190,44 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
 </style>
 </head>
 <body>
-<!-- GATE DE CADASTRO -->
+<!-- GATE: LOGIN / CADASTRO / APROVACAO -->
 <div id="gate">
   <div class="gatecard">
     <div class="gbrand">ROMULO CORCINO</div>
-    <h3>Acesso à carteira</h3>
-    <p>Preencha rápido para ver a carteira completa, o backtest e o simulador.</p>
-    <input id="gNome" type="text" placeholder="Nome completo *">
-    <input id="gEmail" type="email" placeholder="E-mail *" autocomplete="email">
-    <input id="gWpp" type="text" inputmode="tel" placeholder="WhatsApp com DDD *">
-    <input id="gCidade" type="text" placeholder="Cidade / UF">
-    <select id="gPat"><option value="">Faixa de patrimônio</option><option>Até R$50 mil</option><option>R$50 mil a R$200 mil</option><option>R$200 mil a R$1 milhão</option><option>Acima de R$1 milhão</option></select>
-    <select id="gObj"><option value="">Objetivo principal</option><option>Aposentadoria</option><option>Gerar renda</option><option>Crescimento do patrimônio</option><option>Reserva</option></select>
-    <select id="gJa"><option value="">Já investe hoje?</option><option>Sim</option><option>Não</option></select>
-    <select id="gOrig"><option value="">Como nos conheceu?</option><option>Instagram</option><option>Indicação</option><option>Google</option><option>YouTube</option><option>LinkedIn</option><option>Outro</option></select>
-    <label class="gcheck"><input id="gLgpd" type="checkbox"><span>Autorizo o contato e o uso dos meus dados para envio de informações e ofertas, conforme a LGPD. *</span></label>
-    <button id="gSave" class="btn">Acessar a carteira →</button>
-    <div class="gmsg" id="gMsg"></div>
+    <!-- ENTRAR -->
+    <div id="gLogin">
+      <h3>Entrar</h3>
+      <p>Acesse com seu e-mail e senha.</p>
+      <input id="lEmail" type="email" placeholder="E-mail" autocomplete="email">
+      <input id="lPass" type="password" placeholder="Senha" autocomplete="current-password">
+      <button id="lBtn" class="btn">Entrar</button>
+      <div class="gmsg" id="lMsg"></div>
+      <button class="glink" id="toSignup">Não tem conta? Solicitar acesso</button>
+    </div>
+    <!-- CRIAR ACESSO -->
+    <div id="gSignup" style="display:none">
+      <h3>Solicitar acesso</h3>
+      <p>Preencha para criar seu acesso à carteira.</p>
+      <input id="sNome" type="text" placeholder="Nome completo *">
+      <input id="sEmail" type="email" placeholder="E-mail *" autocomplete="email">
+      <input id="sPass" type="password" placeholder="Crie uma senha (mín. 6) *" autocomplete="new-password">
+      <input id="sWpp" type="text" inputmode="tel" placeholder="WhatsApp com DDD *">
+      <input id="sCidade" type="text" placeholder="Cidade / UF">
+      <select id="sPat"><option value="">Faixa de patrimônio</option><option>Até R$50 mil</option><option>R$50 mil a R$200 mil</option><option>R$200 mil a R$1 milhão</option><option>Acima de R$1 milhão</option></select>
+      <select id="sObj"><option value="">Objetivo principal</option><option>Aposentadoria</option><option>Gerar renda</option><option>Crescimento do patrimônio</option><option>Reserva</option></select>
+      <select id="sJa"><option value="">Já investe hoje?</option><option>Sim</option><option>Não</option></select>
+      <select id="sOrig"><option value="">Como nos conheceu?</option><option>Instagram</option><option>Indicação</option><option>Google</option><option>YouTube</option><option>LinkedIn</option><option>Outro</option></select>
+      <label class="gcheck"><input id="sLgpd" type="checkbox"><span>Autorizo o contato e o uso dos meus dados para envio de informações e ofertas, conforme a LGPD. *</span></label>
+      <button id="sBtn" class="btn">Solicitar acesso</button>
+      <div class="gmsg" id="sMsg"></div>
+      <button class="glink" id="toLogin">Já tenho conta? Entrar</button>
+    </div>
+    <!-- EM ANALISE -->
+    <div id="gPending" style="display:none">
+      <h3>Cadastro recebido ✓</h3>
+      <p>Seu acesso está <b>em análise</b> e será liberado em breve. Depois de aprovado, é só entrar com seu e-mail e senha — em qualquer dispositivo. Dúvidas? WhatsApp <b>(11) 98431-7900</b>.</p>
+      <button class="glink" id="pOut">Sair</button>
+    </div>
   </div>
 </div>
 
@@ -821,25 +842,51 @@ document.getElementById("footContact").innerHTML=`<a class="cta-wpp" href="https
 selPF("MOD");
 </script>
 <script>
-/* ===== GATE DE CADASTRO (sem login) ===== */
+/* ===== GATE: LOGIN + CADASTRO + APROVACAO (Supabase) ===== */
 (function(){
  const SB=window.supabase.createClient("https://oypanstcpeckdnxgzbgk.supabase.co","sb_publishable_T0ha2GBMMBqvFHeJOPjHUQ_wEt11m1t");
  const gate=document.getElementById("gate"),$=id=>document.getElementById(id);
+ const views=["gLogin","gSignup","gPending"];
+ const show=v=>views.forEach(x=>$(x).style.display=(x===v?"block":"none"));
  const openGate=()=>{gate.style.display="flex";document.body.style.overflow="hidden";};
  const closeGate=()=>{gate.style.display="none";document.body.style.overflow="";};
- if(localStorage.getItem("rc_lead_ok"))closeGate(); else openGate();
- $("gSave").onclick=async()=>{
-  const m=$("gMsg");
-  const nome=$("gNome").value.trim(),email=$("gEmail").value.trim(),wpp=$("gWpp").value.trim();
-  if(!nome||!/.+@.+\..+/.test(email)||!wpp||!$("gLgpd").checked){m.textContent="Preencha nome, e-mail, WhatsApp e aceite o consentimento.";m.className="gmsg err";return;}
-  m.textContent="Enviando...";m.className="gmsg";$("gSave").disabled=true;
-  const row={nome,email,whatsapp:wpp,cidade:$("gCidade").value.trim(),patrimonio:$("gPat").value,
-   objetivo:$("gObj").value,ja_investe:$("gJa").value,origem:$("gOrig").value,lgpd:true};
-  const {error}=await SB.from("leads").insert(row);
-  $("gSave").disabled=false;
-  if(error){m.textContent="Erro ao salvar: "+error.message;m.className="gmsg err";return;}
-  localStorage.setItem("rc_lead_ok","1");closeGate();
+ async function route(){
+  try{
+   const {data:{session}}=await SB.auth.getSession();
+   if(!session){openGate();show("gLogin");return;}
+   const {data:prof}=await SB.from("profiles").select("aprovado").eq("id",session.user.id).maybeSingle();
+   if(prof&&prof.aprovado){closeGate();return;}
+   openGate();show("gPending");
+  }catch(e){openGate();show("gLogin");$("lMsg").textContent="Erro de conexão: "+e.message;$("lMsg").className="gmsg err";}
+ }
+ $("toSignup").onclick=()=>show("gSignup");
+ $("toLogin").onclick=()=>show("gLogin");
+ $("pOut").onclick=async()=>{await SB.auth.signOut();location.reload();};
+ $("lBtn").onclick=async()=>{
+  const m=$("lMsg"),email=$("lEmail").value.trim(),pass=$("lPass").value;
+  if(!email||!pass){m.textContent="Preencha e-mail e senha.";m.className="gmsg err";return;}
+  m.textContent="Entrando...";m.className="gmsg";$("lBtn").disabled=true;
+  const {error}=await SB.auth.signInWithPassword({email,password:pass});
+  $("lBtn").disabled=false;
+  if(error){m.textContent="E-mail ou senha incorretos.";m.className="gmsg err";return;}
+  route();
  };
+ $("sBtn").onclick=async()=>{
+  const m=$("sMsg");
+  const nome=$("sNome").value.trim(),email=$("sEmail").value.trim(),pass=$("sPass").value,wpp=$("sWpp").value.trim();
+  if(!nome||!/.+@.+\..+/.test(email)||pass.length<6||!wpp||!$("sLgpd").checked){m.textContent="Preencha nome, e-mail, senha (mín. 6), WhatsApp e aceite o consentimento.";m.className="gmsg err";return;}
+  m.textContent="Criando...";m.className="gmsg";$("sBtn").disabled=true;
+  const {data,error}=await SB.auth.signUp({email,password:pass});
+  if(error){$("sBtn").disabled=false;m.textContent=(/registered|already/i.test(error.message)?"E-mail já cadastrado — faça login.":"Erro: "+error.message);m.className="gmsg err";return;}
+  if(!data.session||!data.user){$("sBtn").disabled=false;m.textContent="Quase lá — desative a confirmação por e-mail no Supabase e tente de novo.";m.className="gmsg err";return;}
+  const row={id:data.user.id,nome,email,whatsapp:wpp,cidade:$("sCidade").value.trim(),patrimonio:$("sPat").value,
+   objetivo:$("sObj").value,ja_investe:$("sJa").value,origem:$("sOrig").value,lgpd:true,aprovado:false};
+  const {error:e2}=await SB.from("profiles").insert(row);
+  $("sBtn").disabled=false;
+  if(e2){m.textContent="Erro ao salvar: "+e2.message;m.className="gmsg err";return;}
+  show("gPending");
+ };
+ route();
 })();
 </script>
 </body>
