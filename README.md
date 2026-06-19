@@ -6,7 +6,7 @@ Página única (HTML estático) com:
 - **Backtest** contra o CDI (bruto e líquido de IR), Ulcer Index e mapa risco-retorno
 - **Racional** da construção
 
-Acesso: **https://romulocorcinotag.github.io/carteira-etf/**
+Acesso: **https://romulocorcino.github.io/carteira-etf/**
 
 ## Stack
 - HTML/CSS puro + [Chart.js](https://www.chartjs.org/) (CDN). Sem build.
