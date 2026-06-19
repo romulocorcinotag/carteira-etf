@@ -21,6 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="data.js?v=20260619"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   /* paleta premium: navy profundo + dourado (confiança/prestígio/valor) */
@@ -175,9 +176,59 @@ footer{background:var(--vinho);color:#c4cdd6;padding:30px 0;font-size:12.5px}
 footer a{color:var(--laranja)}
 footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;letter-spacing:2px;font-weight:700}
 .disc{font-size:11.5px;color:#9aa6b1;margin-top:8px;line-height:1.5}
+#gate{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,var(--vinho),var(--vinho2));display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:36px 16px}
+.gatecard{background:#fff;border-radius:14px;max-width:440px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.35);margin:auto}
+.gbrand{font-family:'Playfair Display',Georgia,serif;color:var(--vinho);font-weight:800;letter-spacing:2px;font-size:18px;text-align:center;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.gatecard h3{font-family:'Playfair Display',serif;color:var(--vinho);font-size:22px;margin-bottom:6px}
+.gatecard p{color:#4b5560;font-size:14px;margin-bottom:14px;line-height:1.55}
+.gatecard input,.gatecard select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:8px;font-size:15px;margin-bottom:11px;font-family:inherit;background:#fff}
+.gatecard .btn{width:100%;text-align:center;margin-top:4px}
+.gmsg{font-size:13px;margin-top:10px;min-height:16px}.gmsg.err{color:#a23}.gmsg.ok{color:#2f7d4f}
+.glink{display:block;background:none;border:none;color:var(--muted);cursor:pointer;text-decoration:underline;font-size:13px;margin:14px auto 0}
+.gcheck{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:#4b5560;margin-bottom:12px;line-height:1.45}
+.gcheck input{width:auto;margin:2px 0 0 0;flex:0 0 auto}
 </style>
 </head>
 <body>
+<!-- GATE DE LOGIN -->
+<div id="gate">
+  <div class="gatecard">
+    <div class="gbrand">ROMULO CORCINO</div>
+    <div id="gStepEmail">
+      <h3>Acesso exclusivo</h3>
+      <p>Informe seu e-mail para receber um link de acesso seguro.</p>
+      <input id="gEmail" type="email" placeholder="seu@email.com" autocomplete="email">
+      <button id="gSend" class="btn">Receber link de acesso</button>
+      <div class="gmsg" id="gMsgEmail"></div>
+    </div>
+    <div id="gStepSent" style="display:none">
+      <h3>Verifique seu e-mail 📩</h3>
+      <p>Enviamos um link de acesso para <b id="gSentTo"></b>. Abra o e-mail e clique no link para entrar (verifique também o spam).</p>
+      <button id="gBack" class="glink">Usar outro e-mail</button>
+    </div>
+    <div id="gStepSignup" style="display:none">
+      <h3>Complete seu cadastro</h3>
+      <p>Falta pouco — preencha para solicitar seu acesso.</p>
+      <input id="gNome" type="text" placeholder="Nome completo *">
+      <input id="gWpp" type="text" inputmode="tel" placeholder="WhatsApp (com DDD) *">
+      <input id="gCidade" type="text" placeholder="Cidade / UF">
+      <select id="gPat"><option value="">Faixa de patrimônio</option><option>Até R$50 mil</option><option>R$50 mil a R$200 mil</option><option>R$200 mil a R$1 milhão</option><option>Acima de R$1 milhão</option></select>
+      <select id="gObj"><option value="">Objetivo principal</option><option>Aposentadoria</option><option>Gerar renda</option><option>Crescimento do patrimônio</option><option>Reserva</option></select>
+      <select id="gJa"><option value="">Já investe hoje?</option><option>Sim</option><option>Não</option></select>
+      <select id="gOrig"><option value="">Como nos conheceu?</option><option>Instagram</option><option>Indicação</option><option>Google</option><option>YouTube</option><option>LinkedIn</option><option>Outro</option></select>
+      <label class="gcheck"><input id="gLgpd" type="checkbox"><span>Autorizo o contato e o uso dos meus dados para envio de informações e ofertas, conforme a LGPD. *</span></label>
+      <button id="gSave" class="btn">Solicitar acesso</button>
+      <div class="gmsg" id="gMsgSignup"></div>
+      <button id="gLogout1" class="glink">Sair</button>
+    </div>
+    <div id="gStepPending" style="display:none">
+      <h3>Cadastro recebido ✓</h3>
+      <p>Seu acesso está <b>em análise</b> e será liberado em breve. Assim que aprovado, é só voltar a esta página. Dúvidas? Fale no WhatsApp <b>(11) 98431-7900</b>.</p>
+      <button id="gLogout2" class="glink">Sair</button>
+    </div>
+  </div>
+</div>
+
 <header><div class="wrap nav">
   <div class="brand">ROMULO CORCINO</div>
   <div class="navlinks">
@@ -787,6 +838,59 @@ document.getElementById("footContact").innerHTML=`<a class="cta-wpp" href="https
 (()=>{const g=D.cdi.aa/100,y=10,P=100000;const fe=P*Math.pow(1+g-0.002,y),ff=P*Math.pow(1+g-0.015,y);document.getElementById("econVal").textContent=brl(fe-ff);})();
 
 selPF("MOD");
+</script>
+<script>
+/* ===== GATE DE LOGIN (Supabase) ===== */
+(function(){
+ const SB=window.supabase.createClient("https://hlsglhkrkhylidywbmpo.supabase.co","sb_publishable_rV3pnA9lqYvc-AR74IfsKw_EuLbvCaQ");
+ const gate=document.getElementById("gate");
+ const steps=["gStepEmail","gStepSent","gStepSignup","gStepPending"];
+ const show=id=>steps.forEach(s=>document.getElementById(s).style.display=(s===id?"block":"none"));
+ const openGate=()=>{gate.style.display="flex";document.body.style.overflow="hidden";};
+ const closeGate=()=>{gate.style.display="none";document.body.style.overflow="";};
+ const $=id=>document.getElementById(id);
+ let routing=false;
+ async function route(){
+  if(routing)return; routing=true;
+  try{
+   const {data:{session}}=await SB.auth.getSession();
+   if(!session){openGate();show("gStepEmail");return;}
+   const {data:lead}=await SB.from("leads").select("aprovado").eq("id",session.user.id).maybeSingle();
+   if(!lead){openGate();show("gStepSignup");return;}
+   if(lead.aprovado){closeGate();return;}
+   openGate();show("gStepPending");
+  }catch(e){openGate();show("gStepEmail");$("gMsgEmail").textContent="Erro de conexão: "+e.message;$("gMsgEmail").className="gmsg err";}
+  finally{routing=false;}
+ }
+ $("gSend").onclick=async()=>{
+  const email=$("gEmail").value.trim(),m=$("gMsgEmail");
+  if(!/.+@.+\..+/.test(email)){m.textContent="Digite um e-mail válido.";m.className="gmsg err";return;}
+  m.textContent="Enviando...";m.className="gmsg";$("gSend").disabled=true;
+  const {error}=await SB.auth.signInWithOtp({email,options:{emailRedirectTo:location.href.split("#")[0]}});
+  $("gSend").disabled=false;
+  if(error){m.textContent="Erro: "+error.message;m.className="gmsg err";return;}
+  $("gSentTo").textContent=email;show("gStepSent");
+ };
+ $("gBack").onclick=()=>show("gStepEmail");
+ $("gSave").onclick=async()=>{
+  const m=$("gMsgSignup");
+  const {data:{session}}=await SB.auth.getSession();
+  if(!session){m.textContent="Sessão expirou — recarregue a página.";m.className="gmsg err";return;}
+  if(!$("gNome").value.trim()||!$("gWpp").value.trim()||!$("gLgpd").checked){m.textContent="Preencha nome, WhatsApp e aceite o consentimento.";m.className="gmsg err";return;}
+  m.textContent="Enviando...";m.className="gmsg";$("gSave").disabled=true;
+  const row={id:session.user.id,email:session.user.email,nome:$("gNome").value.trim(),whatsapp:$("gWpp").value.trim(),
+   cidade:$("gCidade").value.trim(),patrimonio:$("gPat").value,objetivo:$("gObj").value,ja_investe:$("gJa").value,
+   origem:$("gOrig").value,lgpd:true,aprovado:false};
+  const {error}=await SB.from("leads").insert(row);
+  $("gSave").disabled=false;
+  if(error){m.textContent="Erro: "+error.message;m.className="gmsg err";return;}
+  show("gStepPending");
+ };
+ const logout=async()=>{await SB.auth.signOut();location.reload();};
+ $("gLogout1").onclick=logout;$("gLogout2").onclick=logout;
+ SB.auth.onAuthStateChange(()=>route());
+ route();
+})();
 </script>
 </body>
 </html>
