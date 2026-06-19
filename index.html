@@ -133,6 +133,11 @@ ul.clean{margin:8px 0 8px 18px}ul.clean li{margin-bottom:7px;color:#4b5560;font-
 .cert-ds{font-size:13px;color:#4b5560;line-height:1.5;flex:1}
 .cert-val{font-size:12px;color:#2f7d4f;font-weight:700;margin-top:8px;display:flex;align-items:center;gap:6px}
 .cert-dot{width:8px;height:8px;border-radius:50%;background:#3e9e63;display:inline-block}
+.feat-t{font-weight:700;color:var(--vinho);margin-bottom:4px;font-size:15px}
+.feat-d{font-size:13.5px;color:#4b5560;line-height:1.5}
+.rate{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;color:var(--vinho);line-height:1}
+.ratelab{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--laranja);font-weight:700;margin:4px 0 10px}
+.taxcard ul{margin:0 0 0 16px;padding:0}.taxcard li{font-size:13px;color:#4b5560;margin-bottom:6px;line-height:1.45}
 footer{background:var(--vinho);color:#c4cdd6;padding:30px 0;font-size:12.5px}
 footer a{color:var(--laranja)}
 footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;letter-spacing:2px;font-weight:700}
@@ -147,6 +152,7 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
     <a href="#carteiras">Carteiras</a>
     <a href="#backtest">Backtest</a>
     <a href="#racional">Racional</a>
+    <a href="#educacao">ETFs &amp; IR</a>
     <a href="#credenciais">Credenciais</a>
   </div>
 </div></header>
@@ -225,8 +231,65 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   </ul>
 </div></section>
 
+<!-- EDUCACAO: POR QUE ETFs + IR -->
+<section id="educacao"><div class="wrap">
+  <div class="sec-tag">Entenda</div><h2>Por que ETFs — e como funciona o imposto</h2>
+  <p class="lead">Um ETF é um fundo negociado na bolsa como se fosse uma ação: cada cota representa uma cesta inteira de ativos que segue um índice (o BOVA11 segue o Ibovespa, o IMAB11 o Tesouro IPCA, o IVVB11 o S&amp;P 500). Com um clique, você fica diversificado em dezenas ou centenas de papéis.</p>
+
+  <h3>Vantagens sobre os ativos tradicionais</h3>
+  <div class="grid g3">
+    <div class="card"><div class="feat-t">Custo baixo</div><div class="feat-d">Taxa de 0,1%–0,3% a.a., contra 1%–2% + performance dos fundos ativos. No longo prazo, faz enorme diferença no bolso.</div></div>
+    <div class="card"><div class="feat-t">Diversificação instantânea</div><div class="feat-d">Uma cota equivale a uma cesta inteira — reduz o risco de concentrar no ativo errado.</div></div>
+    <div class="card"><div class="feat-t">Liquidez na hora</div><div class="feat-d">Compra e vende durante o pregão, com o dinheiro em D+2 — sem prazos de resgate de fundo.</div></div>
+    <div class="card"><div class="feat-t">Sem come-cotas</div><div class="feat-d">Nos ETFs de renda fixa, o IR fica todo para o resgate — o valor bruto rende no caminho.</div></div>
+    <div class="card"><div class="feat-t">Transparência</div><div class="feat-d">A carteira segue um índice público: você sabe exatamente o que está comprando.</div></div>
+    <div class="card"><div class="feat-t">Acessível</div><div class="feat-d">Ticket baixo e compra fracionada — dá para começar com pouco e ir aportando.</div></div>
+  </div>
+
+  <h3>ETF vs. ativos tradicionais</h3>
+  <div class="card" style="overflow-x:auto"><table>
+    <thead><tr><th></th><th>ETF</th><th>Fundo ativo</th><th>Ação avulsa</th><th>CDB / Tesouro</th></tr></thead>
+    <tbody>
+     <tr><td class="tk">Taxa</td><td>0,1–0,3%</td><td>1–2% + perf.</td><td>corretagem</td><td>spread</td></tr>
+     <tr><td class="tk">Diversificação</td><td>alta (cesta)</td><td>alta</td><td>você monta</td><td>baixa (1 emissor)</td></tr>
+     <tr><td class="tk">Come-cotas</td><td><b style="color:#2f7d4f">não</b></td><td><b style="color:#a23">sim</b></td><td>não</td><td>não</td></tr>
+     <tr><td class="tk">Liquidez</td><td>intradiária</td><td>D+1 a D+30</td><td>intradiária</td><td>varia</td></tr>
+    </tbody></table></div>
+
+  <h3>Como funciona o Imposto de Renda</h3>
+  <div class="grid g3">
+    <div class="card taxcard"><div class="rate">15%</div><div class="ratelab">ETF de ações</div>
+      <ul><li>Sobre o lucro na venda (20% se day trade).</li><li>⚠️ <b>Não tem</b> a isenção de R$20 mil/mês das ações avulsas.</li><li>Você recolhe via <b>DARF</b> (cód. 6015) até o mês seguinte.</li></ul></div>
+    <div class="card taxcard"><div class="rate">15–25%</div><div class="ratelab">ETF de renda fixa</div>
+      <ul><li>Tabela regressiva pelo prazo da carteira (<b>15%</b> acima de 720 dias).</li><li>Retido na fonte no resgate — chega líquido.</li><li><b>Sem come-cotas.</b></li></ul></div>
+    <div class="card taxcard"><div class="rate">0%</div><div class="ratelab">Isentos (FII / FI-Infra)</div>
+      <ul><li>Rendimento mensal <b>isento</b> de IR para PF.</li><li>Ganho na venda da cota: 20% (via DARF).</li><li>São os sleeves isentos da carteira.</li></ul></div>
+  </div>
+
+  <h3>Quanto você pagaria — exemplos</h3>
+  <div class="card" style="overflow-x:auto"><table>
+    <thead><tr><th>Situação</th><th class="r">Lucro</th><th class="r">IR</th><th>Como paga</th></tr></thead>
+    <tbody>
+     <tr><td>ETF de ações: R$10k → R$13k</td><td class="r">R$3.000</td><td class="r"><b>15% = R$450</b></td><td>DARF (mês seguinte)</td></tr>
+     <tr><td>ETF renda fixa longo: R$10k → R$12k</td><td class="r">R$2.000</td><td class="r"><b>15% = R$300</b></td><td>retido na fonte</td></tr>
+     <tr><td>FII: aluguel de R$200/mês</td><td class="r">—</td><td class="r"><b style="color:#2f7d4f">R$0</b></td><td>isento</td></tr>
+     <tr><td>FII: venda da cota com +R$1.000</td><td class="r">R$1.000</td><td class="r"><b>20% = R$200</b></td><td>DARF</td></tr>
+    </tbody></table>
+    <div class="note">O imposto só incide quando você <b>realiza o lucro</b> (vende). Enquanto segura, não paga nada.</div></div>
+
+  <h3>Como declarar no IRPF</h3>
+  <ul class="clean">
+    <li><b>Posição (Bens e Direitos):</b> cada ETF/FII pelo custo de aquisição, com o saldo em 31/12 (grupo 07 – Fundos).</li>
+    <li><b>Lucro com ETF de ações / venda de FII:</b> ficha <i>Renda Variável</i>, mês a mês, informando o DARF pago.</li>
+    <li><b>ETF de renda fixa (retido na fonte):</b> ficha <i>Rendimentos Sujeitos à Tributação Exclusiva/Definitiva</i> — o valor vem no informe da corretora.</li>
+    <li><b>Aluguéis isentos de FII:</b> ficha <i>Rendimentos Isentos e Não Tributáveis</i>.</li>
+    <li><b>DARF:</b> só nos meses com venda lucrativa de ETF de ações/FII; se o IR do mês for menor que R$10, acumula para o mês seguinte.</li>
+  </ul>
+  <div class="callout">⚠️ Conteúdo educacional. As regras de IR podem mudar e há detalhes por situação — confirme com um contador na hora de declarar.</div>
+</div></section>
+
 <!-- CREDENCIAIS -->
-<section id="credenciais" style="background:var(--bg)"><div class="wrap">
+<section id="credenciais" style="background:#fff"><div class="wrap">
   <div class="sec-tag">Credenciais</div><h2>Gestão com certificação profissional</h2>
   <p class="lead">Carteira construída por profissional com as três certificações de gestão de recursos da <b>ANBIMA</b> — o mesmo padrão exigido de gestores de fundos regulados pela CVM.</p>
   <div class="grid g3">
