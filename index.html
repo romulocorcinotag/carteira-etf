@@ -309,8 +309,8 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   <div class="simgrid">
     <div class="card">
       <div class="field"><label>Perfil</label><select id="simPf"><option value="RF">Renda Fixa</option><option value="CONS">Conservador</option><option value="MOD" selected>Moderado</option><option value="AGR">Agressivo</option></select></div>
-      <div class="field"><label>Aporte inicial (R$)</label><input id="simIni" type="number" value="100000" min="0" step="1000"></div>
-      <div class="field"><label>Aporte mensal (R$)</label><input id="simMes" type="number" value="1000" min="0" step="100"></div>
+      <div class="field"><label>Aporte inicial</label><input id="simIni" type="text" inputmode="numeric" value="R$ 100.000"></div>
+      <div class="field"><label>Aporte mensal</label><input id="simMes" type="text" inputmode="numeric" value="R$ 1.000"></div>
       <div class="field"><label>Prazo (anos)</label><input id="simAnos" type="number" value="10" min="1" max="40"></div>
     </div>
     <div>
@@ -726,9 +726,11 @@ function renderHM(k){[...hmTabs.children].forEach(c=>c.classList.toggle("act",c.
 renderHM("MOD");
 
 // simulador
+function parseNum(s){return +String(s).replace(/\D/g,"")||0;}
+function maskMoney(el){const n=parseNum(el.value);el.value="R$ "+n.toLocaleString('pt-BR');}
 function simula(){
  const k=document.getElementById("simPf").value;
- const ini=+document.getElementById("simIni").value||0,mes=+document.getElementById("simMes").value||0,an=Math.max(1,+document.getElementById("simAnos").value||1);
+ const ini=parseNum(document.getElementById("simIni").value),mes=parseNum(document.getElementById("simMes").value),an=Math.max(1,+document.getElementById("simAnos").value||1);
  const liqAA=Math.pow(1+D.metrics.v2[k].liqTotal/100,1/D.periodo.anos)-1;
  const rm=Math.pow(1+liqAA,1/12)-1,nm=an*12;
  const fv=ini*Math.pow(1+rm,nm)+(rm>0?mes*((Math.pow(1+rm,nm)-1)/rm):mes*nm),inv=ini+mes*nm;
@@ -737,7 +739,9 @@ function simula(){
  document.getElementById("simGanho").textContent=brl(fv-inv);
  document.getElementById("simRenda").textContent=brl(D.perf.rendaPassiva[k].mensal100k*(fv/100000))+"/mês";
 }
-["simPf","simIni","simMes","simAnos"].forEach(id=>document.getElementById(id).addEventListener("input",simula));
+["simIni","simMes"].forEach(id=>{const el=document.getElementById(id);el.addEventListener("input",()=>{maskMoney(el);simula();});});
+document.getElementById("simAnos").addEventListener("input",simula);
+document.getElementById("simPf").addEventListener("change",simula);
 simula();
 
 // contato no rodapé
