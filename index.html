@@ -92,6 +92,24 @@ td.r,th.r{text-align:right}
 .badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;background:#f0ece3;color:#6c7780;font-weight:600}
 .chartbox{position:relative;height:330px}
 .note{font-size:12px;color:var(--muted);margin-top:10px}
+.sub{color:#8a949d;font-size:11.5px}
+.cdot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
+td{vertical-align:top}
+tbody tr:hover{background:#faf8f3}
+.wnum{font-weight:700;color:var(--ink);font-size:14px}
+.wbar{height:5px;background:#eef0ec;border-radius:3px;margin-top:6px;overflow:hidden;min-width:64px}
+.wbar i{display:block;height:100%;border-radius:3px}
+#cartKpis{grid-template-columns:repeat(2,1fr)}
+@media(min-width:720px){#cartKpis{grid-template-columns:repeat(4,1fr)}}
+.stat{background:#fff;border:1px solid var(--line);border-radius:8px;padding:13px 10px;text-align:center}
+.stat b{display:block;font-family:'Playfair Display',serif;font-size:23px;color:var(--vinho);line-height:1.1}
+.stat small{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.donut-center .big{font-family:'Playfair Display',serif;font-size:27px;font-weight:800;color:var(--vinho);line-height:1}
+.donut-center .lab{font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.dlegend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;justify-content:center}
+.dlegl{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5560}
+.dlegl b{color:var(--ink);font-weight:700}
 .kpi{display:flex;align-items:baseline;gap:8px}
 .kpi b{font-family:'Playfair Display',serif;font-size:23px;color:var(--vinho)}
 ul.clean{margin:8px 0 8px 18px}ul.clean li{margin-bottom:7px;color:#4b5560;font-size:14.5px}
@@ -134,8 +152,12 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   <div class="sec-tag">Passo 2</div><h2>As carteiras</h2>
   <p class="lead">Composição por perfil. Os sleeves marcados <span class="isento">ISENTO</span> são fundos listados isentos de IR (FII, FI-Infra, FIAGRO) — negociados em bolsa como um ETF.</p>
   <div class="tabs" id="cartTabs"></div>
+  <div class="grid g4" id="cartKpis" style="margin-bottom:16px"></div>
   <div class="grid g2">
-    <div class="card"><div class="chartbox" style="height:300px"><canvas id="donut"></canvas></div></div>
+    <div class="card">
+      <div class="chartbox" style="height:240px"><canvas id="donut"></canvas><div class="donut-center" id="donutCenter"></div></div>
+      <div id="donutLegend" class="dlegend"></div>
+    </div>
     <div class="card" style="overflow-x:auto"><div id="cartTable"></div></div>
   </div>
 </div></section>
@@ -278,20 +300,34 @@ PFKEYS.forEach(k=>{const b=document.createElement("div");b.className="tab";b.dat
 function selPF(k){
  curPF=k; const ix=idxPF[k];
  [...tabsEl.children].forEach(c=>c.classList.toggle("act",c.dataset.k===k));
- let rows=CART.filter(r=>r.w[ix]>0).sort((a,b)=>b.w[ix]-a.w[ix]);
+ const rows=CART.filter(r=>r.w[ix]>0).sort((a,b)=>b.w[ix]-a.w[ix]);
+ const maxW=Math.max(...rows.map(r=>r.w[ix]));
+ const fmt=v=>v.toLocaleString('pt-BR',{maximumFractionDigits:1});
+ const byc={}; CLASSES.forEach(c=>byc[c]=0); CART.forEach(r=>byc[r.c]+=r.w[ix]);
+ const isento=CART.reduce((s,r)=>s+(r.is?r.w[ix]:0),0);
+ const fi=byc["Caixa"]+byc["Crédito"]+byc["Inflação"]+byc["Imobiliário"];
+ const risco=byc["Ações"]+byc["Alternativos"];
+ // KPIs
+ document.getElementById("cartKpis").innerHTML=
+  [[rows.length,"ativos"],[fmt(isento)+"%","isento de IR"],[fmt(fi)+"%","renda fixa"],[fmt(risco)+"%","em risco"]]
+   .map(x=>`<div class="stat"><b>${x[0]}</b><small>${x[1]}</small></div>`).join("");
+ // tabela com barras de peso
  let html=`<table><thead><tr><th>ETF</th><th>Classe</th><th class="r">Peso</th></tr></thead><tbody>`;
- rows.forEach(r=>{html+=`<tr><td><span class="tk">${r.t}</span> ${r.is?'<span class="isento">ISENTO</span>':''}<br><span style="color:#8a949d;font-size:11.5px">${r.n} · ${r.e}</span></td><td><span class="badge">${r.c}</span></td><td class="r" style="font-weight:700">${r.w[ix].toLocaleString('pt-BR')}%</td></tr>`;});
- html+=`</tbody></table>`;
- document.getElementById("cartTable").innerHTML=html;
- const byc={}; CLASSES.forEach(c=>byc[c]=0);
- CART.forEach(r=>byc[r.c]+=r.w[ix]);
+ rows.forEach(r=>{const cc=CCOR[r.c];
+  html+=`<tr><td><span class="tk">${r.t}</span>${r.is?' <span class="isento">ISENTO</span>':''}<br><span class="sub">${r.n} · ${r.e}</span></td>`+
+   `<td><span class="cdot" style="background:${cc}"></span>${r.c}</td>`+
+   `<td class="r"><div class="wnum">${fmt(r.w[ix])}%</div><div class="wbar"><i style="width:${(r.w[ix]/maxW*100).toFixed(0)}%;background:${cc}"></i></div></td></tr>`;});
+ document.getElementById("cartTable").innerHTML=html+`</tbody></table>`;
+ // donut: centro + legenda custom
+ document.getElementById("donutCenter").innerHTML=`<div class="big">${fmt(fi)}%</div><div class="lab">renda fixa</div>`;
  const labels=CLASSES.filter(c=>byc[c]>0), vals=labels.map(c=>byc[c]);
+ document.getElementById("donutLegend").innerHTML=labels.map(c=>
+   `<span class="dlegl"><span class="cdot" style="background:${CCOR[c]}"></span>${c} <b>${fmt(byc[c])}%</b></span>`).join("");
  const data={labels,datasets:[{data:vals,backgroundColor:labels.map(c=>CCOR[c]),borderWidth:2,borderColor:"#fff"}]};
  if(donutChart)donutChart.destroy();
  donutChart=new Chart(document.getElementById("donut"),{type:"doughnut",data,
-  options:{plugins:{legend:{position:"bottom",labels:{font:{size:11},padding:10}},
-   title:{display:true,text:`${PFNOME[k]} — alocação por classe`,color:"#0F2238",font:{size:14,weight:"bold"}},
-   tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed.toLocaleString('pt-BR')}%`}}},cutout:"58%"}});
+  options:{maintainAspectRatio:false,plugins:{legend:{display:false},
+   tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.parsed)}%`}}},cutout:"66%"}});
 }
 
 /* LINE CHART */
