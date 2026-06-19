@@ -156,6 +156,7 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
     <a href="#perfil">Meu perfil</a>
     <a href="#carteiras">Carteiras</a>
     <a href="#backtest">Backtest</a>
+    <a href="#rentabilidade">Rentabilidade</a>
     <a href="#racional">Racional</a>
     <a href="#educacao">ETFs &amp; IR</a>
   </div>
@@ -240,8 +241,22 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   </div>
 </div></section>
 
+<!-- RENTABILIDADE -->
+<section id="rentabilidade" style="background:#fff"><div class="wrap">
+  <div class="sec-tag">Rentabilidade</div><h2>Resultados por período</h2>
+  <p class="lead">Retornos acumulados em diferentes janelas (bruto, proventos reinvestidos) e o quanto representam do CDI. Abaixo, o desempenho ano a ano e as métricas de risco.</p>
+  <div class="card" style="overflow-x:auto"><div id="perfWin"></div></div>
+
+  <h3>Retorno por ano calendário</h3>
+  <div class="card"><div class="chartbox" style="height:330px"><canvas id="yearChart"></canvas></div>
+    <div class="note" id="yearNote"></div></div>
+
+  <h3>Métricas de risco</h3>
+  <div class="card" style="overflow-x:auto"><div id="riskTable"></div></div>
+</div></section>
+
 <!-- RACIONAL -->
-<section id="racional" style="background:#fff"><div class="wrap">
+<section id="racional"><div class="wrap">
   <div class="sec-tag">Entenda</div><h2>O racional da carteira</h2>
 
   <h3>1. Só o que é negociado em bolsa</h3>
@@ -265,7 +280,7 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
 </div></section>
 
 <!-- EDUCACAO: POR QUE ETFs + IR -->
-<section id="educacao"><div class="wrap">
+<section id="educacao" style="background:#fff"><div class="wrap">
   <div class="sec-tag">Entenda</div><h2>Por que ETFs — e como funciona o imposto</h2>
   <p class="lead">Um ETF é um fundo negociado na bolsa como se fosse uma ação: cada cota representa uma cesta inteira de ativos que segue um índice (o BOVA11 segue o Ibovespa, o IMAB11 o Tesouro IPCA, o IVVB11 o S&amp;P 500). Com um clique, você fica diversificado em dezenas ou centenas de papéis.</p>
 
@@ -519,6 +534,27 @@ new Chart(document.getElementById("scatter"),{type:"scatter",
   scales:{x:{title:{display:true,text:"Ulcer Index (menor = melhor)",color:"#7d8893"},grid:{color:"#eee"}},
    y:{title:{display:true,text:"Retorno a.a. (%)",color:"#7d8893"},grid:{color:"#eee"}}},
   plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw.nome}: ${F(c.raw.y)}% a.a. · Ulcer ${F(c.raw.x)}`}}}}});
+
+/* RENTABILIDADE */
+const P=D.perf;
+let wt=`<table><thead><tr><th>Perfil</th>${P.winLabels.map(l=>`<th class="r">${l}</th>`).join("")}</tr></thead><tbody>`;
+PFKEYS.forEach(k=>{wt+=`<tr><td class="tk" style="color:${COR[k]}">${PFNOME[k]}</td>`+
+  P.winKeys.map(wk=>{const c=P.win[k][wk];return `<td class="r"><div class="wnum">${F(c.ret)}%</div><div class="sub" style="text-align:right">${c.pctcdi!=null?c.pctcdi+"% CDI":"—"}</div></td>`;}).join("")+`</tr>`;});
+wt+=`<tr style="border-top:2px solid var(--line)"><td class="tk">CDI</td>${P.winKeys.map(wk=>`<td class="r"><div class="wnum">${F(P.cdiWin[wk])}%</div></td>`).join("")}</tr>`;
+document.getElementById("perfWin").innerHTML=wt+`</tbody></table>`;
+
+new Chart(document.getElementById("yearChart"),{data:{labels:P.yearLabels,datasets:[
+  ...PFKEYS.map(k=>({type:"bar",label:PFNOME[k],data:P.years[k],backgroundColor:COR[k],borderRadius:3})),
+  {type:"line",label:"CDI",data:P.years.CDI,borderColor:"#111",borderDash:[5,4],borderWidth:2,pointRadius:3,pointBackgroundColor:"#111",fill:false}]},
+ options:{maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+  scales:{y:{ticks:{callback:v=>v+"%",color:"#8a949d"},grid:{color:"#eee"}},x:{grid:{display:false}}},
+  plugins:{legend:{labels:{boxWidth:14,font:{size:11}}},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${F(c.parsed.y)}%`}}}}});
+document.getElementById("yearNote").textContent=`Retorno por ano (bruto). ${P.yearLabels[0]} desde maio; ${P.yearLabels[P.yearLabels.length-1]} parcial (até ${D.periodo.fim}).`;
+
+const RL=[["retAA","Retorno a.a.","%"],["vol","Volatilidade a.a.","%"],["sharpe","Sharpe (vs CDI)",""],["ulcer","Ulcer Index",""],["maxDD","Máx. drawdown","%"],["posMonths","Meses positivos","%"]];
+let rt=`<table><thead><tr><th>Métrica</th>${PFKEYS.map(k=>`<th class="r" style="color:${COR[k]}">${PFNOME[k]}</th>`).join("")}</tr></thead><tbody>`;
+RL.forEach(([key,lab,suf])=>{rt+=`<tr><td class="tk">${lab}</td>`+PFKEYS.map(k=>{let v=D.perf.risk[k][key];v=(key==="ulcer"||key==="sharpe")?F2(v):F(v);return `<td class="r">${v}${suf}</td>`;}).join("")+`</tr>`;});
+document.getElementById("riskTable").innerHTML=rt+`</tbody></table>`;
 
 selPF("MOD");
 </script>
