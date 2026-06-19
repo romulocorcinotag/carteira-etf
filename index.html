@@ -182,6 +182,7 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
   <div class="brand">ROMULO CORCINO</div>
   <div class="navlinks">
     <a href="#credenciais">Credenciais</a>
+    <a href="#reserva">Reserva</a>
     <a href="#perfil">Meu perfil</a>
     <a href="#carteiras">Carteiras</a>
     <a href="#backtest">Backtest</a>
@@ -189,7 +190,6 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
     <a href="#simulador">Simulador</a>
     <a href="#racional">Racional</a>
     <a href="#educacao">ETFs &amp; IR</a>
-    <a href="#reserva">Reserva</a>
   </div>
 </div></header>
 
@@ -228,6 +228,35 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
       <div class="cert-val"><span class="cert-dot"></span>Ativa</div>
     </div>
   </div>
+</div></section>
+
+<!-- RESERVA -->
+<section id="reserva" style="background:var(--bg)"><div class="wrap">
+  <div class="sec-tag">Antes de tudo</div><h2>A reserva de emergência vem primeiro</h2>
+  <p class="lead">Antes de investir na carteira, monte sua reserva — o colchão que cobre imprevistos (desemprego, saúde, um conserto) <b>sem você precisar resgatar investimentos na pior hora</b>. A emergência costuma chegar justamente quando o mercado caiu.</p>
+  <div class="grid g3">
+    <div class="card"><div class="feat-t">Quanto ter</div><div class="feat-d"><b>3 a 6 meses</b> dos seus gastos se a renda é estável (CLT); <b>6 a 12 meses</b> se a renda é variável (autônomo, empresário, comissionado).</div></div>
+    <div class="card"><div class="feat-t">Como deve ser</div><div class="feat-d">Liquidez imediata (resgate no mesmo dia ou D+1), risco baixíssimo e sem oscilação. Aqui o objetivo é <b>segurança e disponibilidade</b>, não rentabilidade.</div></div>
+    <div class="card"><div class="feat-t">Onde NÃO deixar</div><div class="feat-d">Na carteira de ETFs, em ações ou cripto — qualquer coisa que oscila. A reserva não pode depender do humor do mercado.</div></div>
+  </div>
+
+  <h3>Quanto você precisa</h3>
+  <div class="card">
+    <div class="field" style="max-width:280px"><label>Seu gasto mensal</label><input id="resGasto" type="text" inputmode="numeric" value="R$ 5.000"></div>
+    <div class="grid g2" style="margin-top:6px">
+      <div class="simout"><div class="v" style="font-size:21px" id="resCLT">—</div><div class="vl">renda estável · 3 a 6 meses</div></div>
+      <div class="simout"><div class="v" style="font-size:21px" id="resAut">—</div><div class="vl">renda variável · 6 a 12 meses</div></div>
+    </div>
+  </div>
+
+  <h3>Onde deixar a reserva</h3>
+  <div class="grid g2">
+    <div class="card"><div class="feat-t">Tesouro Selic</div><div class="feat-d">A referência: garantido pelo governo, liquidez em D+1, rende ~100% da Selic. Simples e seguro — o "padrão-ouro" da reserva.</div></div>
+    <div class="card"><div class="feat-t">Caixinhas / contas remuneradas (bancos digitais)</div><div class="feat-d">Práticas e com liquidez diária. Ex.: a <b>Caixinha Turbo do Nubank</b> chegou a render <b>120% do CDI</b> em parte do saldo; Itaú (íon), Inter, PicPay e C6 têm opções parecidas. Confira limites e condições vigentes de cada uma.</div></div>
+    <div class="card"><div class="feat-t">CDB de liquidez diária</div><div class="feat-d">CDBs que pagam ~100–110% do CDI com resgate a qualquer momento, protegidos pelo <b>FGC até R$250 mil</b> por instituição.</div></div>
+    <div class="card"><div class="feat-t">Fundo DI simples</div><div class="feat-d">Baixíssimo risco e liquidez diária — só fique de olho na taxa de administração (prefira zero ou bem baixa).</div></div>
+  </div>
+  <div class="callout"><b>Regra de ouro:</b> reserva primeiro, investimento depois. Com o colchão pronto, você investe na carteira com tranquilidade — e nunca precisa vender no fundo do poço para pagar uma conta.</div>
 </div></section>
 
 <!-- QUIZ -->
@@ -428,35 +457,6 @@ footer .fbrand{font-family:'Playfair Display',serif;color:#fff;font-size:16px;le
     <li><b>DARF:</b> só nos meses com venda lucrativa de ETF de ações/FII; se o IR do mês for menor que R$10, acumula para o mês seguinte.</li>
   </ul>
   <div class="callout">⚠️ Conteúdo educacional. As regras de IR podem mudar e há detalhes por situação — confirme com um contador na hora de declarar.</div>
-</div></section>
-
-<!-- RESERVA -->
-<section id="reserva" style="background:#fff"><div class="wrap">
-  <div class="sec-tag">Antes de tudo</div><h2>A reserva de emergência vem primeiro</h2>
-  <p class="lead">Antes de investir na carteira, monte sua reserva — o colchão que cobre imprevistos (desemprego, saúde, um conserto) <b>sem você precisar resgatar investimentos na pior hora</b>. A emergência costuma chegar justamente quando o mercado caiu.</p>
-  <div class="grid g3">
-    <div class="card"><div class="feat-t">Quanto ter</div><div class="feat-d"><b>3 a 6 meses</b> dos seus gastos se a renda é estável (CLT); <b>6 a 12 meses</b> se a renda é variável (autônomo, empresário, comissionado).</div></div>
-    <div class="card"><div class="feat-t">Como deve ser</div><div class="feat-d">Liquidez imediata (resgate no mesmo dia ou D+1), risco baixíssimo e sem oscilação. Aqui o objetivo é <b>segurança e disponibilidade</b>, não rentabilidade.</div></div>
-    <div class="card"><div class="feat-t">Onde NÃO deixar</div><div class="feat-d">Na carteira de ETFs, em ações ou cripto — qualquer coisa que oscila. A reserva não pode depender do humor do mercado.</div></div>
-  </div>
-
-  <h3>Quanto você precisa</h3>
-  <div class="card">
-    <div class="field" style="max-width:280px"><label>Seu gasto mensal</label><input id="resGasto" type="text" inputmode="numeric" value="R$ 5.000"></div>
-    <div class="grid g2" style="margin-top:6px">
-      <div class="simout"><div class="v" style="font-size:21px" id="resCLT">—</div><div class="vl">renda estável · 3 a 6 meses</div></div>
-      <div class="simout"><div class="v" style="font-size:21px" id="resAut">—</div><div class="vl">renda variável · 6 a 12 meses</div></div>
-    </div>
-  </div>
-
-  <h3>Onde deixar a reserva</h3>
-  <div class="grid g2">
-    <div class="card"><div class="feat-t">Tesouro Selic</div><div class="feat-d">A referência: garantido pelo governo, liquidez em D+1, rende ~100% da Selic. Simples e seguro — o "padrão-ouro" da reserva.</div></div>
-    <div class="card"><div class="feat-t">Caixinhas / contas remuneradas (bancos digitais)</div><div class="feat-d">Práticas e com liquidez diária. Ex.: a <b>Caixinha Turbo do Nubank</b> chegou a render <b>120% do CDI</b> em parte do saldo; Itaú (íon), Inter, PicPay e C6 têm opções parecidas. Confira limites e condições vigentes de cada uma.</div></div>
-    <div class="card"><div class="feat-t">CDB de liquidez diária</div><div class="feat-d">CDBs que pagam ~100–110% do CDI com resgate a qualquer momento, protegidos pelo <b>FGC até R$250 mil</b> por instituição.</div></div>
-    <div class="card"><div class="feat-t">Fundo DI simples</div><div class="feat-d">Baixíssimo risco e liquidez diária — só fique de olho na taxa de administração (prefira zero ou bem baixa).</div></div>
-  </div>
-  <div class="callout"><b>Regra de ouro:</b> reserva primeiro, investimento depois. Com o colchão pronto, você investe na carteira com tranquilidade — e nunca precisa vender no fundo do poço para pagar uma conta.</div>
 </div></section>
 
 <!-- COMO INVESTIR -->
